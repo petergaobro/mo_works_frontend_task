@@ -51,4 +51,7 @@ jobs:
             rm -rf /home/ubuntu/next-app
             rm -rf /home/ubuntu/temp_static
             
+            echo "🧹 Cleaning old archive files..."
+            rm -f /home/ubuntu/*.tar.gz
+            
             echo "✅ Deployment complete!"
