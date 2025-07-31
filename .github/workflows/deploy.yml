@@ -2,7 +2,7 @@ name: Deploy to Lightsail
 
 on:
   push:
-    branches: [main]  # Trigger on push to main branch
+    branches: [main]
 
 jobs:
   deploy:
@@ -19,37 +19,26 @@ jobs:
         with:
           node-version: '18'
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 4: Build static site
-      - name: Build static site
-        run: |
-          rm -rf .next out
-          npx next build
-
-      # Step 5: Upload static files to Lightsail (temp directory)
-      - name: Upload build files to Lightsail temp folder
+      # Step 3: Upload full project to Lightsail
+      - name: Upload project files to Lightsail
         uses: appleboy/scp-action@master
         with:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: "out/*"
-          target: "/home/ubuntu/temp_deploy"
+          source: "."
+          target: "/home/ubuntu/next-app"
 
-      # Step 6: Move files to web root with sudo + fix permissions
-      - name: Move files to web root with sudo
+      # Step 4: SSH to install deps, build & start with PM2
+      - name: Install dependencies and start server
         uses: appleboy/ssh-action@master
         with:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            sudo rm -rf /var/www/html/*
-            sudo cp -r /home/ubuntu/temp_deploy/* /var/www/html/
-            sudo chown -R www-data:www-data /var/www/html
-            sudo chmod -R 755 /var/www/html
-            sudo rm -rf /home/ubuntu/temp_deploy
-            sudo systemctl reload nginx
+            cd /home/ubuntu/next-app
+            npm install
+            npm run build
+            pm2 delete all || true
+            pm2 start npm --name "next-app" -- start
