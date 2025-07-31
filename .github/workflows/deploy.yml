@@ -2,30 +2,35 @@ name: Deploy to Lightsail
 
 on:
   push:
-    branches: [main]  # Trigger workflow when pushing to main branch
+    branches: [main]  # Trigger on push to main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Step 4: Build static site
       - name: Build static site
         run: |
           rm -rf .next out
           npx next build
-          # No need for `next export` since you're using `output: "export"` in Next.js v13.4+
+          npx next export
 
+      # Step 5: Upload static files to Lightsail (temp directory)
       - name: Upload build files to Lightsail temp folder
         uses: appleboy/scp-action@master
         with:
@@ -35,6 +40,7 @@ jobs:
           source: "out/*"
           target: "/home/ubuntu/temp_deploy"
 
+      # Step 6: Move files to web root with sudo + fix permissions
       - name: Move files to web root with sudo
         uses: appleboy/ssh-action@master
         with:
@@ -44,4 +50,7 @@ jobs:
           script: |
             sudo rm -rf /var/www/html/*
             sudo cp -r /home/ubuntu/temp_deploy/* /var/www/html/
-            sudo chown -R www-data:www-data /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html
+            sudo chmod -R 755 /var/www/html
+            sudo rm -rf /home/ubuntu/temp_deploy
+            sudo systemctl reload nginx
