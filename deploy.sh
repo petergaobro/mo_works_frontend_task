@@ -15,16 +15,15 @@ npm install
 echo "🧹 Cleaning previous build output..."
 rm -rf .next out
 
-# Build and export static site
-echo "🛠 Building static site..."
+# Build static site
+echo "🔧 Building static site..."
 npx next build
-npx next export
 
+# Debug: Show contents of out/
 ls -lh out
 
-
 # Deploy to web server
-echo "📂 Copying files to web server directory..."
+echo "📁 Copying files to web server directory..."
 sudo rm -rf /var/www/html/*
 sudo cp -r out/* /var/www/html/
 sudo chown -R www-data:www-data /var/www/html

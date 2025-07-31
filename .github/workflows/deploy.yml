@@ -2,7 +2,7 @@ name: Deploy to Lightsail
 
 on:
   push:
-    branches: [ main ]  # Trigger deployment when pushing to the main branch
+    branches: [main] # Trigger on push to main
 
 jobs:
   deploy:
@@ -15,32 +15,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
+      - name: Build static site
+        run: |
+          rm -rf .next out
+          npx next build
 
       - name: Deploy to Lightsail via SSH
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/scp-action@master
         with:
-          host: 16.176.228.22                    # Your Lightsail public IP
-          username: ubuntu                      # Default username for Ubuntu instance
-          key: ${{ secrets.LIGHTSAIL_SSH_KEY }} # SSH private key stored as GitHub secret
-          script: |
-            # Navigate to the project directory (change if needed)
-            cd ~/mo_works_frontend_task
-
-            # Pull the latest code
-            git pull origin main
-
-            # Install/update dependencies
-            npm install
-
-            # Rebuild project
-            npm run build
-
-            # Restart app using PM2 (install PM2 globally if not already)
-            pm2 restart all || pm2 start npm --name "mo-task" -- run start
+          host: 16.176.228.22
+          username: ubuntu
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          source: "out/*"
+          target: "/var/www/html"
