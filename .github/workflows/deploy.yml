@@ -1,3 +1,4 @@
+# .github/workflows/deploy.yml
 name: Deploy to Lightsail
 
 on:
@@ -9,36 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # Step 3: Upload full project to Lightsail
-      - name: Upload project files to Lightsail
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Upload build to Lightsail
         uses: appleboy/scp-action@master
         with:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: "."
-          target: "/home/ubuntu/next-app"
+          source: ".next/static/*"
+          target: "/home/ubuntu/temp_static"
 
-      # Step 4: SSH to install deps, build & start with PM2
-      - name: Install dependencies and start server
+      - name: SSH to move files into /var/www/html
         uses: appleboy/ssh-action@master
         with:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            cd /home/ubuntu/next-app
-            npm install
-            npm run build
-            pm2 delete all || true
-            pm2 start npm --name "next-app" -- start
+            sudo rm -rf /var/www/html/*
+            sudo cp -r /home/ubuntu/temp_static/* /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html
+            sudo chmod -R 755 /var/www/html
