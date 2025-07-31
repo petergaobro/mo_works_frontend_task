@@ -30,8 +30,8 @@ jobs:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: ".next/static/*"
-          target: "/home/ubuntu/temp_static"
+          source: "."
+          target: "/home/ubuntu/next-app"
 
       - name: SSH to move files into /var/www/html
         uses: appleboy/ssh-action@master
@@ -40,7 +40,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            sudo rm -rf /var/www/html/*
-            sudo cp -r /home/ubuntu/temp_static/* /var/www/html/
-            sudo chown -R www-data:www-data /var/www/html
-            sudo chmod -R 755 /var/www/html
+            cd /home/ubuntu/next-app
+            npm install
+            npm run build
+            pm2 delete all || true
+            pm2 start npm --name "next-app" -- start
