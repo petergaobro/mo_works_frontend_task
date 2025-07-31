@@ -28,7 +28,6 @@ jobs:
         run: |
           rm -rf .next out
           npx next build
-          npx next export
 
       # Step 5: Upload static files to Lightsail (temp directory)
       - name: Upload build files to Lightsail temp folder
