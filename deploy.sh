@@ -20,6 +20,9 @@ echo "🛠 Building static site..."
 npx next build
 npx next export
 
+ls -lh out
+
+
 # Deploy to web server
 echo "📂 Copying files to web server directory..."
 sudo rm -rf /var/www/html/*
