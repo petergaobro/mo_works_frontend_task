@@ -21,14 +21,16 @@ if [ "$(hostname)" = "ip-172-26-6-226" ]; then
         echo "✅ index.html found"
         echo "📄 File size:"
         ls -lh /var/www/html/index.html
+        echo "📄 First few lines of index.html:"
+        head -5 /var/www/html/index.html
     else
         echo "❌ index.html not found"
-        echo "📁 Available files:"
-        find /var/www/html/ -type f -name "*.html"
+        echo "📁 Available HTML files:"
+        find /var/www/html/ -name "*.html" -type f
     fi
     
     echo "🌐 Testing local access:"
-    curl -I http://localhost/ 2>/dev/null || echo "❌ Local access failed"
+    curl -I http://localhost/ 2>/dev/null && echo "✅ Local access successful" || echo "❌ Local access failed"
     
     echo "✅ Nginx check completed!"
 else
