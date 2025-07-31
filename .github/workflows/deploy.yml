@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -25,23 +25,30 @@ jobs:
         run: npm run build
 
       - name: Upload build to Lightsail
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: "."
-          target: "/home/ubuntu/next-app"
+          source: "out"
+          target: "/home/ubuntu/mo_works_frontend_task"
 
-      - name: SSH to move files into /var/www/html
-        uses: appleboy/ssh-action@master
+      - name: Deploy to web server
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: 16.176.228.22
           username: ubuntu
           key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
-            cd /home/ubuntu/next-app
-            npm install
-            npm run build
-            pm2 delete all || true
-            pm2 start npm --name "next-app" -- start
+            echo "🧹 Cleaning old deployment files..."
+            sudo rm -rf /var/www/html/*
+            
+            echo "📁 Copying static files to web server..."
+            sudo cp -r /home/ubuntu/mo_works_frontend_task/* /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html
+            
+            echo "🧹 Cleaning temporary files..."
+            rm -rf /home/ubuntu/next-app
+            rm -rf /home/ubuntu/temp_static
+            
+            echo "✅ Deployment complete!"
