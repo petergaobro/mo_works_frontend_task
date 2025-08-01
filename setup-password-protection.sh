@@ -27,8 +27,11 @@ if [ "$1" = "enable" ]; then
         echo "Using htpasswd command..."
         echo "moworks" | sudo htpasswd -i /etc/nginx/.htpasswd
     else
+        # echo "Using openssl method..."
+        # echo "moworks:\$(openssl passwd -apr1 'peter')" | sudo tee /etc/nginx/.htpasswd
         echo "Using openssl method..."
-        echo "moworks:\$(openssl passwd -apr1 'peter')" | sudo tee /etc/nginx/.htpasswd
+        PASSWORD_HASH=$(openssl passwd -apr1 'peter')
+        echo "moworks:$PASSWORD_HASH" | sudo tee /etc/nginx/.htpasswd
     fi
     
     # Step 2: Create simple Nginx configuration
