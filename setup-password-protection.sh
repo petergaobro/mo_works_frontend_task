@@ -15,103 +15,43 @@ fi
 echo "✅ Running on Lightsail server"
 
 # Check command line argument
-if [ "$1" = "disable" ]; then
-    echo "🔓 Disabling password protection..."
-    
-    # Update Nginx configuration without password protection
-    sudo tee /etc/nginx/sites-available/default > /dev/null << 'EOF'
-# HTTP to HTTPS redirect
-server {
-    listen 80;
-    server_name 16.176.228.22;
-    return 301 https://$server_name$request_uri;
-}
-
-# HTTPS server without password protection
-server {
-    listen 443 ssl http2;
-    server_name 16.176.228.22;
-    
-    # SSL configuration
-    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
-    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
-    ssl_prefer_server_ciphers off;
-    
-    # Security headers
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-    add_header X-Frame-Options DENY always;
-    add_header X-Content-Type-Options nosniff always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    
-    root /var/www/html;
-    index index.html;
-    
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-EOF
-
-    # Test and restart Nginx
-    if sudo nginx -t; then
-        sudo systemctl restart nginx
-        echo "✅ Password protection disabled!"
-        echo "🌐 Access your application at: https://16.176.228.22"
-        echo "📝 No password required"
-    else
-        echo "❌ Nginx configuration error"
-        exit 1
-    fi
-
-elif [ "$1" = "enable" ]; then
+if [ "$1" = "enable" ]; then
     echo "🔐 Enabling password protection..."
     
-    # Use default credentials
-    username="moworks"
-    password="peter"
-    
-    echo "🔑 Using default credentials:"
-    echo "   Username: $username"
-    echo "   Password: $password"
-    
-    # Create password file
-    echo "📋 Creating password file..."
+    # Step 1: Create password file with simple method
+    echo "📋 Step 1: Creating password file..."
     sudo mkdir -p /etc/nginx
-    echo "$username:\$(openssl passwd -apr1 '$password')" | sudo tee /etc/nginx/.htpasswd
     
-    # Update Nginx configuration with password protection
+    # Use htpasswd command if available, otherwise use openssl
+    if command -v htpasswd &> /dev/null; then
+        echo "Using htpasswd command..."
+        echo "moworks" | sudo htpasswd -i /etc/nginx/.htpasswd
+    else
+        echo "Using openssl method..."
+        echo "moworks:\$(openssl passwd -apr1 'peter')" | sudo tee /etc/nginx/.htpasswd
+    fi
+    
+    # Step 2: Create simple Nginx configuration
+    echo "📋 Step 2: Creating Nginx configuration..."
     sudo tee /etc/nginx/sites-available/default > /dev/null << 'EOF'
-# HTTP to HTTPS redirect
 server {
     listen 80;
     server_name 16.176.228.22;
     return 301 https://$server_name$request_uri;
 }
 
-# HTTPS server with password protection
 server {
-    listen 443 ssl http2;
+    listen 443 ssl;
     server_name 16.176.228.22;
     
-    # SSL configuration
     ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
     ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
-    ssl_prefer_server_ciphers off;
-    
-    # Security headers
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-    add_header X-Frame-Options DENY always;
-    add_header X-Content-Type-Options nosniff always;
-    add_header X-XSS-Protection "1; mode=block" always;
     
     root /var/www/html;
     index index.html;
     
-    # Password protection
+    # Simple password protection
     auth_basic "Restricted Access";
     auth_basic_user_file /etc/nginx/.htpasswd;
     
@@ -121,17 +61,64 @@ server {
 }
 EOF
 
-    # Set permissions
+    # Step 3: Set permissions
+    echo "📋 Step 3: Setting permissions..."
     sudo chown root:root /etc/nginx/.htpasswd
     sudo chmod 644 /etc/nginx/.htpasswd
     
-    # Test and restart Nginx
+    # Step 4: Test and restart
+    echo "📋 Step 4: Testing and restarting..."
     if sudo nginx -t; then
         sudo systemctl restart nginx
         echo "✅ Password protection enabled!"
-        echo "🌐 Access your application at: https://16.176.228.22"
+        echo "🌐 Access: https://16.176.228.22"
         echo "🔑 Username: moworks"
         echo "🔑 Password: peter"
+    else
+        echo "❌ Nginx configuration error"
+        exit 1
+    fi
+
+elif [ "$1" = "disable" ]; then
+    echo "🔓 Disabling password protection..."
+    
+    # Step 1: Remove password file
+    echo "📋 Step 1: Removing password file..."
+    sudo rm -f /etc/nginx/.htpasswd
+    
+    # Step 2: Create configuration without password protection
+    echo "📋 Step 2: Creating configuration without password protection..."
+    sudo tee /etc/nginx/sites-available/default > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name 16.176.228.22;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name 16.176.228.22;
+    
+    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    
+    root /var/www/html;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+EOF
+
+    # Step 3: Test and restart
+    echo "📋 Step 3: Testing and restarting..."
+    if sudo nginx -t; then
+        sudo systemctl restart nginx
+        echo "✅ Password protection disabled!"
+        echo "🌐 Access: https://16.176.228.22"
+        echo "📝 No password required"
     else
         echo "❌ Nginx configuration error"
         exit 1
@@ -145,4 +132,4 @@ else
     echo "🔑 Default credentials:"
     echo "  Username: moworks"
     echo "  Password: peter"
-fi 
+fi
