@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 /** import components */
 import {
   BASE_DOT_COLOR,
@@ -8,7 +8,8 @@ import {
   AVATAR_MESSAGES,
   DEVICE_CONFIGS,
 } from "./constants";
-import { getDeviceType } from './gridUtils';
+import { getDeviceType, debounce } from "./gridUtils";
+import HoverInfoAvatar from "./hoverInfoAvatar";
 
 function AnimationForBackground() {
   // state management
