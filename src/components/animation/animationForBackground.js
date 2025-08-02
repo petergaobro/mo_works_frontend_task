@@ -9,7 +9,7 @@ import {
   DEVICE_CONFIGS,
 } from "./constants";
 import { getDeviceType, debounce } from "./gridUtils";
-import HoverInfoAvatar from "./hoverInfoAvatar";
+// import HoverInfoAvatar from "./hoverInfoAvatar";
 
 function AnimationForBackground() {
   // state management
