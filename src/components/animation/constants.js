@@ -64,32 +64,46 @@ export const AVATAR_MESSAGES = [
  * Dynamically adapts layout and animations according to the screen size and device type
  */
 
-export const DEVICE_CONFIGS = {  
+export const DEVICE_CONFIGS = {
   // 1440px specific desktop configuration (for 1:1 design restoration)
   desktop1440: {
-    PANEL_W: 1440,                        // Fixed panel width
-    PANEL_H: 800,                         // Fixed panel height
-    DOT_DIAM: 12,                         // Dot diameter
-    OFFSET_X: 38,                         // Left offset
-    OFFSET_Y: 0,                          // Top offset
-    GAP_X: 52,                            // Horizontal spacing
-    GAP_Y: 52,                            // Vertical spacing
-    SPEED: 0.007,                         // Movement speed
-    GRADIENT_RADIUS_MULTIPLIER: [10, 6],  // Gradient radius multiplier
-    isResponsive: false                   // Fixed size, does not respond to window changes
+    PANEL_W: 1440, // Fixed panel width
+    PANEL_H: 800, // Fixed panel height
+    DOT_DIAM: 12, // Dot diameter
+    OFFSET_X: 38, // Left offset
+    OFFSET_Y: 0, // Top offset
+    GAP_X: 52, // Horizontal spacing
+    GAP_Y: 52, // Vertical spacing
+    SPEED: 0.007, // Movement speed
+    GRADIENT_RADIUS_MULTIPLIER: [10, 6], // Gradient radius multiplier
+    isResponsive: false, // Fixed size, does not respond to window changes
   },
-  
+
   // General desktop configuration (width > 768px and doesn't meet 1440 specific conditions)
   desktop: {
-    PANEL_W: '100vw',                     // Full screen width
-    PANEL_H: '100vh',                     // Full screen height
-    DOT_DIAM: 10,                         // Dot diameter
-    OFFSET_X: 30,                         // Left offset
-    OFFSET_Y: 0,                          // Top offset
-    GAP_X: 52,                            // Horizontal spacing
-    GAP_Y: 52,                            // Vertical spacing
-    SPEED: 0.006,                         // Movement speed
-    GRADIENT_RADIUS_MULTIPLIER: [9, 7],   // Gradient radius multiplier
-    isResponsive: true                    // Responsive configuration
-  }
+    PANEL_W: "100vw", // Full screen width
+    PANEL_H: "100vh", // Full screen height
+    DOT_DIAM: 10, // Dot diameter
+    OFFSET_X: 30, // Left offset
+    OFFSET_Y: 0, // Top offset
+    GAP_X: 52, // Horizontal spacing
+    GAP_Y: 52, // Vertical spacing
+    SPEED: 0.006, // Movement speed
+    GRADIENT_RADIUS_MULTIPLIER: [9, 7], // Gradient radius multiplier
+    isResponsive: true, // Responsive configuration
+  },
+
+  // Mobile configuration (screen width <= 768px)
+  mobile: {
+    PANEL_W: "100vw", // Panel width: full screen width
+    PANEL_H: "100vh", // Panel height: full screen height
+    DOT_DIAM: 12, // Dot diameter (pixels)
+    OFFSET_X: 30, // Left offset
+    OFFSET_Y: 30, // Top offset to make space for navigation bar
+    GAP_X: 58, // Horizontal spacing between dots
+    GAP_Y: 58, // Vertical spacing between dots
+    SPEED: 0.006, // Center point movement speed (decimal between 0-1)
+    GRADIENT_RADIUS_MULTIPLIER: [8, 5], // Radius multiplier for two gradient centers [left center, right center]
+    isResponsive: true, // Marked as responsive, will dynamically adjust based on window size
+  },
 };
