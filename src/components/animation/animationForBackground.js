@@ -9,7 +9,7 @@ import {
   DEVICE_CONFIGS,
 } from "./constants";
 import { getDeviceType, debounce } from "./gridUtils";
-// import HoverInfoAvatar from "./hoverInfoAvatar";
+import HoverInfoAvatar from "./hoverInfoAvatar";
 
 function AnimationForBackground() {
   // state management
@@ -19,6 +19,28 @@ function AnimationForBackground() {
     }
     return "desktop"; // Default value for server-side rendering
   });
+
+
+
+
+
+
+
+  
+  /** User information currently shown on hover; null indicates no display */
+  const [hoverInfoAvatar, setHoverInfoAvatar] = useState(null);
+
+  return (
+    <>
+      {hoverInfoAvatar && (
+        <HoverInfoAvatar
+          avatarData={hoverInfoAvatar.avatarData}
+          position={hoverInfoAvatar.position}
+          onClose={() => setHoverInfoAvatar(null)}
+        />
+      )}
+    </>
+  );
 }
 
 export default AnimationForBackground;
