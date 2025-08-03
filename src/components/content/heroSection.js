@@ -16,11 +16,20 @@ export default function HeroContent({ onCTAClick }) {
       {/* <Header /> */}
       {/* Product Feature Tags: Display core selling points */}
       <div className="flex justify-center gap-3 mb-8 flex-wrap rounded-sm p-1 pt-6 max-w-[55%] mx-auto mb-8 relative max-md:max-w-[90%] max-md:pt-4 max-sm:max-w-full max-sm:gap-2 max-sm:mb-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-10% via-15% to-85% via-85% to-transparent rounded-sm pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(25,25,36,0)] via-[rgba(25,25,36,0.15)] via-[#191924] via-[#191924] via-[rgba(25,25,36,0.15)] to-[rgba(25,25,36,0)] pointer-events-none rounded hidden md:block" />
+        <div className="absolute inset-0 bg-radial-gradient from-[#191924] via-[rgba(25,25,36,0.8)] via-[rgba(25,25,36,0.4)] to-transparent pointer-events-none rounded md:hidden" />
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-10% via-15% to-85% via-85% to-transparent rounded-sm pointer-events-none" /> */}
         {PRODUCT_TAGS.map((tag, index) => (
           <span
             key={index}
-            className="inline-flex items-center justify-center h-7 px-3 mr-2 bg-[#2E2E38] text-white rounded-md border border-white/8 text-sm font-medium leading-7 whitespace-nowrap relative z-10 max-sm:h-6 max-sm:px-2 max-sm:text-xs max-sm:leading-6"
+            className="
+                    inline-flex items-center justify-center
+                    mr-2 bg-[#2E2E38] text-white rounded border border-[rgba(255,255,255,0.08)]
+                    whitespace-nowrap relative z-10 font-medium
+                    h-6 px-1.5 text-xs leading-6
+                    sm:h-7 sm:px-2 sm:text-sm sm:leading-7
+                    lg:h-8 lg:px-2.5 lg:text-base lg:leading-8
+                  "
           >
             {tag}
           </span>
@@ -28,9 +37,10 @@ export default function HeroContent({ onCTAClick }) {
       </div>
 
       {/* Main Title Part 1: Enterprise Ready Conversation */}
-      <div className="p-1.5 max-w-[85%] mx-auto relative max-md:max-w-[95%] mb-2">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-5% via-5% to-95% via-95% to-transparent pointer-events-none" />
-        <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight m-0 bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent relative z-10 max-md:text-[clamp(2rem,8vw,2.8rem)] max-sm:text-[clamp(1.8rem,10vw,2.5rem)]">
+      <div className=" max-w-[85%] mx-auto relative">
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-5% via-5% to-95% via-95% to-transparent pointer-events-none" /> */}
+        <div className={styles.titleOneOverlay} />
+        <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight m-0 bg-gradient-to-br from-white to-[#e0e0e0] bg-clip-text text-transparent relative z-10">
           Enterprise Ready
           <br />
           Conversation
@@ -39,17 +49,25 @@ export default function HeroContent({ onCTAClick }) {
       </div>
 
       {/* Main Title Part 2: Intelligence (separated to achieve different visual effects) */}
-      <div className="p-1.5 max-w-[80%] mx-auto relative max-md:max-w-[95%]">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/75 to-[#191924] from-15% via-30% to-50% via-70% to-[#191924] via-85% to-transparent pointer-events-none" />
-        <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight m-0 bg-gradient-to-br from-white to-gray-300 bg-clip-text text-transparent relative z-10 max-md:text-[clamp(2rem,8vw,2.8rem)] max-sm:text-[clamp(1.8rem,10vw,2.5rem)]">
+      <div className="max-w-[80%] mx-auto relative">
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/75 to-[#191924] from-15% via-30% to-50% via-70% to-[#191924] via-85% to-transparent pointer-events-none" /> */}
+        <div className={styles.titleTwoOverlay} />
+        <h1 className="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight m-0 bg-gradient-to-br from-white to-[#e0e0e0] bg-clip-text text-transparent relative z-10">
           Intelligence.
         </h1>
       </div>
 
       {/* Product Description: Detailed introduction of product features and value */}
-      <div className="relative max-w-2xl mx-auto my-8 max-sm:my-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-5% via-5% to-95% via-95% to-transparent pointer-events-none" />
-        <p className="text-[clamp(1rem,2vw,1.25rem)] leading-8 m-0 text-white/90 relative z-10 max-md:text-[clamp(0.9rem,4vw,1.1rem)] max-md:leading-6 max-sm:text-[clamp(0.9rem,4vw,1.1rem)]">
+      <div
+        className="relative mx-auto my-10 md:my-4 sm:my-2
+              w-full
+              max-w-[280px]
+              sm:max-w-[560px]
+              md:max-w-[640px]"
+      >
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-5% via-5% to-95% via-95% to-transparent pointer-events-none" /> */}
+        <div className={styles.descriptionOverlay} />
+        <p className="text-[clamp(1rem,2vw,1.25rem)] leading-8 m-0 text-[rgba(255,255,255,0.9)] relative z-10 md:text-[clamp(0.9rem,4vw,1.1rem)] md:leading-6 sm:text-[clamp(0.9rem,4vw,1.1rem)] sm:leading-6">
           OI transforms raw customer conversations across any channel into
           precise, actionable insights and automated workflows. Automate root
           cause, cost analytics, coaching, quality and more.

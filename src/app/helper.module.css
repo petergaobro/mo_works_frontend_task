@@ -1,3 +1,59 @@
+/* home section Gradient overlay */
+.titleOneOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 25, 36, 0) 0%,
+    rgba(25, 25, 36, 0.15) 5%,
+    var(--gradient-bg) 5%,
+    var(--gradient-bg) 95%,
+    rgba(25, 25, 36, 0.15) 95%,
+    rgba(25, 25, 36, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.titleTwoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(25, 25, 36, 0.75) 15%,
+    rgba(25, 25, 36, 1) 30%,
+    var(--gradient-bg) 50%,
+    rgba(25, 25, 36, 1) 70%,
+    rgba(25, 25, 36, 0.3) 85%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.descriptionOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 25, 36, 0) 0%,
+    rgba(25, 25, 36, 0.15) 5%,
+    var(--gradient-bg) 5%,
+    var(--gradient-bg) 95%,
+    rgba(25, 25, 36, 0.15) 95%,
+    rgba(25, 25, 36, 0) 100%
+  );
+  pointer-events: none;
+}
+
 /* button for website field */
 .buttonContainer {
   border-radius: 4px;
@@ -17,8 +73,8 @@
     90deg,
     rgba(25, 25, 36, 0) 0%,
     rgba(25, 25, 36, 0.15) 5%,
-    var(--page-bg) 5%,
-    var(--page-bg) 95%,
+    var(--gradient-bg) 5%,
+    var(--gradient-bg) 95%,
     rgba(25, 25, 36, 0.15) 95%,
     rgba(25, 25, 36, 0) 100%
   );
@@ -149,7 +205,7 @@
   }
 
   100% {
-    transform: translateX(0);    /* back */
+    transform: translateX(0); /* back */
     opacity: 1;
   }
 }

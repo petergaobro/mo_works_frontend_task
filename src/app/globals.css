@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --gradient-bg: #191924; 
   /* CSS Variables Definition */
   --button-primary-start: #665fee; /* Button gradient start color (purple) */
   --button-primary-end: #8b7cf6; /* Button gradient end color */
