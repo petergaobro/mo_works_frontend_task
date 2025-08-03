@@ -61,7 +61,7 @@ export default function Mobile_navbar({
       >
         <div className="flex items-center">
           <img
-            src="/Logo.png"
+            src="/logo.png"
             alt="OI Logo"
             className="h-8 w-auto max-sm:h-6"
             loading="eager"
