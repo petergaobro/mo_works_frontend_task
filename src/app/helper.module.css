@@ -1,3 +1,178 @@
+/* CSS Variables Definition */
+:root {
+  --button-primary-start: #665fee; /* Button gradient start color (purple) */
+  --button-primary-end: #8b7cf6; /* Button gradient end color */
+  --button-hover-start: #362a86; /* Button hover gradient start color */
+  --button-hover-end: #4a3f9e;
+  --text-white: #ffffff; /* Primary text color (white) */
+}
+
+/* button for website field */
+.buttonContainer {
+  border-radius: 4px;
+  padding: 0px 1px 11px 10px;
+  max-width: 48%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.buttonOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 25, 36, 0) 0%,
+    rgba(25, 25, 36, 0.15) 5%,
+    var(--page-bg) 5%,
+    var(--page-bg) 95%,
+    rgba(25, 25, 36, 0.15) 95%,
+    rgba(25, 25, 36, 0) 100%
+  );
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.demoButton {
+  background: linear-gradient(
+    135deg,
+    var(--button-primary-start) 0%,
+    var(--button-primary-end) 100%
+  );
+  color: var(--text-white);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(102, 95, 238, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.demoButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(102, 95, 238, 0.4);
+  background: linear-gradient(
+    135deg,
+    var(--button-hover-start) 0%,
+    var(--button-hover-end) 100%
+  );
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.demoButton:hover .arrowIcon {
+  animation: arrowMove 0.8s ease-in-out;
+}
+
+/* button for mobile navbar field */
+
+/* toggle field */
+.mobileBookButton {
+  background: var(--text-white);
+  color: #000000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobileBookButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mobileBookButton .arrowIcon {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.3s ease;
+}
+
+.mobileBookButton:hover .arrowIcon {
+  animation: arrowMove 0.8s ease-in-out;
+}
+
+/* toggle navbar field */
+.navBookButton {
+  display: block;
+  margin: 16px 20px 32px;
+  padding: 16px;
+  background: var(--text-white);
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.navBookButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+}
+
+.navBookButton .arrowIcon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.navBookButton:hover .arrowIcon {
+  animation: arrowMove 0.8s ease-in-out;
+}
+
+/* animation move for arror */
+@keyframes arrowMove {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(12px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  75% {
+    transform: translateX(8px);
+    opacity: 0.3;
+  }
+  85% {
+    transform: translateX(6px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+}
+
 .mobileBookButton .arrowIcon {
   width: 12px;
   height: 12px;
@@ -18,10 +193,94 @@
   animation: arrowMove 0.8s ease-in-out;
 }
 
-.arrowIcon {
-  transition: transform 0.3s ease;
+/* Responsive styling */
+@media (max-width: 768px) {
+  .mobileNav {
+    display: flex;
+  }
+
+  .content {
+    padding-top: 50px;
+  }
+
+  .tagsContainer {
+    max-width: 90%;
+    padding-top: 15px;
+  }
+
+  .titleContainer {
+    max-width: 95%;
+  }
+
+  .intelligenceContainer {
+    max-width: 95%;
+  }
+
+  .mainTitle,
+  .intelligenceTitle {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .description {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    line-height: 1.6;
+  }
+
+  .demoButton {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+
+  /* Mobile Gradient Rendering Optimization */
+  .tagsOverlay,
+  .titleOverlay,
+  .intelligenceOverlay,
+  .descriptionOverlay,
+  .buttonOverlay {
+    background: radial-gradient(
+      ellipse at center,
+      var(--page-bg) 0%,
+      rgba(25, 25, 36, 0.8) 30%,
+      rgba(25, 25, 36, 0.4) 60%,
+      transparent 100%
+    );
+  }
 }
 
-.demoButton:hover .arrowIcon {
-  animation: arrowMove 0.8s ease-in-out;
+/* Optimization for Mobile Devices */
+@media (max-width: 480px) {
+  .content {
+    padding: 50px 16px 0;
+  }
+
+  .tagsContainer {
+    max-width: 100%;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tag {
+    font-size: 12px;
+    padding: 0 6px;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  .mainTitle,
+  .intelligenceTitle {
+    font-size: clamp(1.8rem, 10vw, 2.5rem);
+  }
+
+  .descriptionContainer {
+    margin: 24px auto;
+  }
+
+  .buttonContainer {
+    max-width: 90%;
+  }
+
+  .demoButton {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
 }

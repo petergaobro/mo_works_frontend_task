@@ -1,6 +1,6 @@
 import ArrowIcon from "../icons/arrowIcon";
 import Header from "../header";
-import styles from '../../app/helper.module.css'
+import styles from "../../app/helper.module.css";
 
 // ===== Constants =====
 const PRODUCT_TAGS = ["No Code", "No Analysts", "No Lift"];
@@ -13,7 +13,7 @@ const PRODUCT_TAGS = ["No Code", "No Analysts", "No Lift"];
 export default function HeroContent({ onCTAClick }) {
   return (
     <div className="relative z-10 text-center max-w-4xl px-5 text-white -mt-15 max-md:pt-12 max-sm:px-4">
-      <Header />
+      {/* <Header /> */}
       {/* Product Feature Tags: Display core selling points */}
       <div className="flex justify-center gap-3 mb-8 flex-wrap rounded-sm p-1 pt-6 max-w-[55%] mx-auto mb-8 relative max-md:max-w-[90%] max-md:pt-4 max-sm:max-w-full max-sm:gap-2 max-sm:mb-6">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-10% via-15% to-85% via-85% to-transparent rounded-sm pointer-events-none" />
@@ -58,15 +58,14 @@ export default function HeroContent({ onCTAClick }) {
 
       {/* CTA Button: Primary call to action */}
       <div className="rounded-sm p-0 pb-3 pl-2.5 max-w-[48%] mx-auto relative max-md:max-w-[80%] max-sm:max-w-[90%] mt-4">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#191924]/15 to-[#191924] from-5% via-5% to-95% via-95% to-transparent rounded-sm pointer-events-none" />
+        <div className={styles.buttonOverlay} />
         <button
-          className="bg-gradient-to-br from-[#665FEE] to-[#8B7CF6] text-white border-none px-8 py-4 rounded-lg text-lg font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 ease-in-out shadow-lg hover:-translate-y-0.5 hover:shadow-xl hover:from-[#362A86] hover:to-[#4A3F9E] relative z-10 max-md:px-7 max-md:py-3.5 max-md:text-base max-sm:px-6 max-sm:py-3 max-sm:text-sm"
+          className={styles.demoButton}
           onClick={onCTAClick}
           aria-label="Book product demo"
         >
           Book a demo
           <ArrowIcon className={styles.arrowIcon} />
-          {/* <ArrowIcon className="transition-transform duration-300 ease-in-out group-hover:animate-arrow-move" /> */}
         </button>
       </div>
     </div>

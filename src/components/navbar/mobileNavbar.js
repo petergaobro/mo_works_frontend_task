@@ -3,6 +3,7 @@
 import { useCallback, useMemo } from "react";
 import ArrowIcon from "../icons/arrowIcon";
 import CloseIcon from "../icons/closeIcon";
+import styles from "../../app/helper.module.css";
 
 // ===== Constants =====
 const NAVIGATION_LINKS = [
@@ -69,13 +70,15 @@ export default function Mobile_navbar({
 
         <div className="flex items-center gap-4 max-sm:gap-3">
           <button
-            className="bg-white text-black border-none px-4 py-2 rounded-md text-sm font-semibold cursor-pointer transition-all duration-300 ease-in-out inline-flex items-center gap-1.5 hover:-translate-y-0.5 hover:shadow-lg max-sm:px-3 max-sm:py-1.5 max-sm:text-xs"
+            className={styles.mobileBookButton}
+            // className="bg-white text-black border-none px-4 py-2 rounded-md text-sm font-semibold cursor-pointer transition-all duration-300 ease-in-out inline-flex items-center gap-1.5 hover:-translate-y-0.5 hover:shadow-lg max-sm:px-3 max-sm:py-1.5 max-sm:text-xs"
             onClick={onCTAClick}
             aria-label="Book a demo"
           >
             Book a demo
             <ArrowIcon
-              className="w-3 h-3 transition-transform duration-300 ease-in-out group-hover:animate-arrow-move"
+              className={styles.arrowIcon}
+              // className="w-3 h-3 transition-transform duration-300 ease-in-out group-hover:animate-arrow-move"
               width={12}
               height={12}
             />
@@ -137,11 +140,13 @@ export default function Mobile_navbar({
 
         <a
           href="#"
-          className="block mx-5 mt-4 mb-8 p-4 bg-white text-black border-none rounded-lg text-center text-base font-semibold no-underline transition-all duration-300 ease-in-out shadow-lg hover:-translate-y-0.5 hover:shadow-xl flex items-center justify-center gap-2 max-sm:p-3 max-sm:text-sm max-sm:mb-6 max-sm:mx-4"
+          className={styles.navBookButton}
+          // className="block mx-5 mt-4 mb-8 p-4 bg-white text-black border-none rounded-lg text-center text-base font-semibold no-underline transition-all duration-300 ease-in-out shadow-lg hover:-translate-y-0.5 hover:shadow-xl flex items-center justify-center gap-2 max-sm:p-3 max-sm:text-sm max-sm:mb-6 max-sm:mx-4"
           onClick={onCTAClick}
         >
           Book a demo
-          <ArrowIcon className="w-4 h-4 transition-transform duration-300 ease-in-out group-hover:animate-arrow-move" />
+          <ArrowIcon className={styles.arrowIcon} />
+          {/* <ArrowIcon className="w-4 h-4 transition-transform duration-300 ease-in-out group-hover:animate-arrow-move" /> */}
         </a>
       </div>
     </>
