@@ -60,12 +60,27 @@ export default function HeroContent({ onCTAClick }) {
       <div className="rounded-sm p-0 pb-3 pl-2.5 max-w-[48%] mx-auto relative max-md:max-w-[80%] max-sm:max-w-[90%] mt-4">
         <div className={styles.buttonOverlay} />
         <button
-          className={styles.demoButton}
+          className="bg-gradient-to-br from-[#665FEE] to-[#8B7CF6] text-white border-none py-4 px-8 rounded-lg text-lg font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 shadow-[0_4px_20px_rgba(102,95,238,0.3)] backdrop-blur-md relative z-10 hover:-translate-y-0.5 hover:shadow-[0_6px_25px_rgba(102,95,238,0.4)] hover:from-[#362A86] hover:to-[#4A3F9E] md:py-3.5 md:px-7 md:text-base sm:py-3 sm:px-6 sm:text-sm group"
           onClick={onCTAClick}
           aria-label="Book product demo"
         >
           Book a demo
-          <ArrowIcon className={styles.arrowIcon} />
+          {/* <ArrowIcon className={styles.arrowIcon} /> */}
+          <svg
+            className="transition-transform duration-300 group-hover:animate-arrow-move"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M8 1L15 8L8 15M15 8H1"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       </div>
     </div>

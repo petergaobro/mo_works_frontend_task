@@ -129,7 +129,6 @@ export default function Mobile_navbar({
             </a>
           ))}
         </nav>
-
         <a
           href="#"
           className="block mx-5 mt-6 p-4 bg-transparent text-white border-2 border-[#665FEE] rounded-lg text-center text-base font-medium no-underline transition-all duration-300 ease-in-out hover:border-white hover:bg-white/5 max-sm:p-3 max-sm:text-sm max-sm:mx-4"
@@ -137,16 +136,9 @@ export default function Mobile_navbar({
         >
           Partner with us
         </a>
-
-        <a
-          href="#"
-          className={styles.navBookButton}
-          // className="block mx-5 mt-4 mb-8 p-4 bg-white text-black border-none rounded-lg text-center text-base font-semibold no-underline transition-all duration-300 ease-in-out shadow-lg hover:-translate-y-0.5 hover:shadow-xl flex items-center justify-center gap-2 max-sm:p-3 max-sm:text-sm max-sm:mb-6 max-sm:mx-4"
-          onClick={onCTAClick}
-        >
+        <a href="#" className={styles.navBookButton} onClick={onCTAClick}>
           Book a demo
           <ArrowIcon className={styles.arrowIcon} />
-          {/* <ArrowIcon className="w-4 h-4 transition-transform duration-300 ease-in-out group-hover:animate-arrow-move" /> */}
         </a>
       </div>
     </>
