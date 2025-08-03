@@ -1,5 +1,6 @@
-import { lerpColor } from "./colorInterpolation";
-import { BASE_DOT_COLOR, GRADIENT_COLOR } from "./constants";
+import { useState } from "react";
+import { lerpColor } from "../colorInterpolation";
+import { BASE_DOT_COLOR, GRADIENT_COLOR } from "../constants";
 import { easeOutQuad } from "./mathUtils";
 
 export function hexToRgb(hex) {
@@ -37,7 +38,8 @@ export function calculateDistance(x1, y1, x2, y2) {
 }
 
 // Calculate the distance to each gradient center
-export function getColor(cx, cy) {
+export function getColor(cx, cy, centers) {
+  // const [centers, setCenters] = useState([]);
   const distances = centers.map((center) => ({
     distance: calculateDistance(cx, cy, center.x, center.y),
     radius: center.GRADIENT_RADIUS_PX,
