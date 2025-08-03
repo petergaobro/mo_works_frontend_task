@@ -92,17 +92,17 @@ export const DEVICE_CONFIGS = {
     GRADIENT_RADIUS_MULTIPLIER: [9, 7], // Gradient radius multiplier
     isResponsive: true, // Responsive configuration
   },
-
+  
   // Mobile configuration (screen width <= 768px)
   mobile: {
     PANEL_W: "100vw", // Panel width: full screen width
     PANEL_H: "100vh", // Panel height: full screen height
     DOT_DIAM: 12, // Dot diameter (pixels)
-    OFFSET_X: 30, // Left offset
+    MIN_PADDING_X: 20, // Minimum left/right padding for center alignment calculation
     OFFSET_Y: 30, // Top offset to make space for navigation bar
     GAP_X: 58, // Horizontal spacing between dots
     GAP_Y: 58, // Vertical spacing between dots
-    SPEED: 0.006, // Center point movement speed (decimal between 0-1)
+    SPEED: 0.005, // Center point movement speed (decimal between 0-1)
     GRADIENT_RADIUS_MULTIPLIER: [8, 5], // Radius multiplier for two gradient centers [left center, right center]
     isResponsive: true, // Marked as responsive, will dynamically adjust based on window size
   },
