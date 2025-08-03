@@ -14,11 +14,6 @@ export const GRADIENT_COLOR = "#665FEE"; // Color for gradient centers (purple)
 
 export const AVATAR_MESSAGES = [
   {
-    avatar: "/p1.png", // Avatar image path in public
-    message: "Hi, I'm calling because...", // Conversation content
-    name: "Sarah", // User name
-  },
-  {
     avatar: "/Image_01.png",
     message: "Hello! How can I help you today?",
     name: "Mike",
