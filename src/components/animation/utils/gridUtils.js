@@ -100,30 +100,36 @@ export function generatePathPoints(PANEL_W, PANEL_H) {
 //   return { dots, cols, rows, radius, offsetX };
 // }
 
+// https://p5js.org/reference/p5/lerp/
+/**
+ * According to the current path progress and smooth interpolation algorithm,
+ * the position of the animation center point on the path is updated to achieve a
+ * continuous and cyclic movement effect.
+ */
 
 export function updateCenterPosition(center, pathPoints, speed) {
-  const currentPoint = pathPoints[center.pathIndex];                    // Current path segment start point
-  const nextPoint = pathPoints[(center.pathIndex + 1) % pathPoints.length];  // Current path segment end point
-  
+  const currentPoint = pathPoints[center.pathIndex]; // Current path segment start point
+  const nextPoint = pathPoints[(center.pathIndex + 1) % pathPoints.length]; // Current path segment end point
+
   // Use linear interpolation to calculate current position
   const x = lerp(currentPoint.x, nextPoint.x, center.segmentProgress);
   const y = lerp(currentPoint.y, nextPoint.y, center.segmentProgress);
-  
+
   // Update animation progress
   let newSegmentProgress = center.segmentProgress + speed;
   let newPathIndex = center.pathIndex;
-  
+
   // When current path segment is complete, move to next segment
   if (newSegmentProgress >= 1) {
-    newSegmentProgress = 0;                                           // Reset segment progress
-    newPathIndex = (center.pathIndex + 1) % pathPoints.length;       // Loop to next segment
+    newSegmentProgress = 0; // Reset segment progress
+    newPathIndex = (center.pathIndex + 1) % pathPoints.length; // Loop to next segment
   }
-  
+
   return {
     ...center,
-    x,                          // New X coordinate
-    y,                          // New Y coordinate
-    pathIndex: newPathIndex,    // Current path segment index
-    segmentProgress: newSegmentProgress  // Segment progress (0-1)
+    x, // New X coordinate
+    y, // New Y coordinate
+    pathIndex: newPathIndex, // Current path segment index
+    segmentProgress: newSegmentProgress, // Segment progress (0-1)
   };
 }

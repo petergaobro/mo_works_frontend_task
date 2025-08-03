@@ -1,5 +1,3 @@
-import ArrowIcon from "../icons/arrowIcon";
-import Header from "../header";
 import styles from "../../app/helper.module.css";
 
 // ===== Constants =====

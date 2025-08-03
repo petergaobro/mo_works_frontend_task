@@ -1,4 +1,17 @@
-import { useState } from "react";
+/**
+ * Color utility functions for animated background component
+ *
+ * Contains:
+ * - Color conversion functions (hex to RGB)
+ * - Color interpolation functions
+ * - Color manipulation utilities
+ */
+
+/**
+ * Convert hexadecimal color value to RGB object
+ * @param {string} hex - Hexadecimal color value (e.g., "#FF0000" or "#F00")
+ * @returns {Object} Object containing r, g, b properties with values 0-255
+ */
 import { lerpColor } from "../colorInterpolation";
 import { BASE_DOT_COLOR, GRADIENT_COLOR } from "../constants";
 import { easeOutQuad } from "./mathUtils";
@@ -33,6 +46,14 @@ export function rgbToHex(rgb) {
 
 // Euclidean Distance
 /**https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/hypot */
+/**
+ * Calculates the Euclidean distance between two points.
+ * @param {number} x1 - The x-coordinate of the first point.
+ * @param {number} y1 - The y-coordinate of the first point.
+ * @param {number} x2 - The x-coordinate of the second point.
+ * @param {number} y2 - The y-coordinate of the second point.
+ */
+
 export function calculateDistance(x1, y1, x2, y2) {
   return Math.hypot(x2 - x1, y2 - y1);
 }
