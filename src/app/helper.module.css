@@ -1,12 +1,3 @@
-/* CSS Variables Definition */
-:root {
-  --button-primary-start: #665fee; /* Button gradient start color (purple) */
-  --button-primary-end: #8b7cf6; /* Button gradient end color */
-  --button-hover-start: #362a86; /* Button hover gradient start color */
-  --button-hover-end: #4a3f9e;
-  --text-white: #ffffff; /* Primary text color (white) */
-}
-
 /* button for website field */
 .buttonContainer {
   border-radius: 4px;
