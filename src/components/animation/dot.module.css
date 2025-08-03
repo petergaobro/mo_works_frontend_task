@@ -1,0 +1,32 @@
+.dot {
+  position: relative;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Expand the hover area */
+.dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Mobile style coverage */
+@media (max-width: 768px) {
+  .dot::before {
+    display: none;
+  }
+
+  .dot {
+    pointer-events: none !important;
+    cursor: default !important;
+  }
+}

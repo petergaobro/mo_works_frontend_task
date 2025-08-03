@@ -1,4 +1,4 @@
 export * from "./constants";
-export * from "./colorUtils";
-export * from "./gridUtils";
+export * from "./utils/colorUtils";
+export * from "./utils/gridUtils";
 export { default as HoverInfoAvatar } from "./hoverInfoAvatar";
