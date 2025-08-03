@@ -19,6 +19,8 @@ import { getColor } from "./utils/colorUtils";
 import HoverInfoAvatar from "./hoverInfoAvatar";
 import Dot from "./dot";
 import { calcGrid } from "./utils/gridMath";
+import styles from "../../app/helper.module.css";
+import clsx from "clsx";
 
 function AnimationForBackground() {
   // ================================== state management ==================================================
@@ -227,13 +229,10 @@ function AnimationForBackground() {
   //   rendering
   return (
     <div
-      className={`
-        absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] pointer-events-auto
-        transition-all duration-300 ease-in-out
-        ${configDeviceValue.isResponsive ? "w-screen h-screen" : ""}
-        ${deviceType === "desktop" ? "w-screen h-screen" : ""}
-        ${deviceType === "desktop1440" ? "w-screen h-screen" : ""}
-      `}
+      className={clsx(
+        styles.animatedBackground,
+        styles[`animatedBackground--${deviceType}`]
+      )}
       style={{
         width: configDeviceValue.isResponsive
           ? "100vw"
@@ -253,44 +252,40 @@ function AnimationForBackground() {
       }`}
     >
       {dots.map(({ left, top, cx, cy }, idx) => {
-        const isMobileAutoHover =
-          deviceType === "mobile" && mobileAutoHoverIndex === idx;
-        const isMobile = deviceType === "mobile";
-
+        // const isMobileAutoHover = deviceType === 'mobile' && mobileAutoHoverIndex === idx;
         return (
           <i
             key={idx}
-            className={`
-              absolute block rounded-full transition-transform duration-200 ease-in-out relative
-              ${
-                isMobile
-                  ? "cursor-default pointer-events-none"
-                  : "cursor-pointer pointer-events-auto"
-              }
-              ${isMobileAutoHover ? "scale-120" : "scale-100"}
-              before:content-[''] before:absolute before:top-1/2 before:left-1/2 
-              before:-translate-x-1/2 before:-translate-y-1/2 before:w-10 before:h-10 
-              before:rounded-full before:bg-transparent before:z-[1] before:pointer-events-auto
-              ${isMobile ? "before:hidden" : ""}
-            `}
+            className={styles.dotElement}
             style={{
+              position: "absolute",
               left,
               top,
               width: configDeviceValue.DOT_DIAM,
               height: configDeviceValue.DOT_DIAM,
+              borderRadius: "50%",
               background: getColor(cx, cy, centers),
+              display: "block",
+              cursor: deviceType === "mobile" ? "default" : "pointer",
+              transition: "transform 0.2s ease",
+              //   transform: isMobileAutoHover ? 'scale(1.2)' : 'scale(1)',
+              pointerEvents: deviceType === "mobile" ? "none" : "auto",
             }}
-            onMouseEnter={!isMobile ? (e) => handleDotHover(e, idx) : undefined}
-            onMouseLeave={!isMobile ? handleDotLeave : undefined}
+            onMouseEnter={
+              deviceType !== "mobile"
+                ? (e) => handleDotHover(e, idx)
+                : undefined
+            }
+            onMouseLeave={deviceType !== "mobile" ? handleDotLeave : undefined}
             onMouseOver={
-              !isMobile
+              deviceType !== "mobile"
                 ? (e) => {
                     e.currentTarget.style.transform = "scale(1.2)";
                   }
                 : undefined
             }
             onMouseOut={
-              !isMobile
+              deviceType !== "mobile"
                 ? (e) => {
                     e.currentTarget.style.transform = "scale(1)";
                   }
@@ -299,6 +294,7 @@ function AnimationForBackground() {
           />
         );
       })}
+
       {hoverInfoAvatar && (
         <HoverInfoAvatar
           avatarData={hoverInfoAvatar.avatarData}

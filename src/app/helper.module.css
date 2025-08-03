@@ -269,9 +269,8 @@
   }
 
   /* Mobile Gradient Rendering Optimization */
-  .tagsOverlay,
-  .titleOverlay,
-  .intelligenceOverlay,
+  .titleOneOverlay,
+  .titleTwoOverlay,
   .descriptionOverlay,
   .buttonOverlay {
     background: radial-gradient(
@@ -320,4 +319,74 @@
     padding: 12px 24px;
     font-size: 15px;
   }
+}
+
+/* animation background */
+.animatedBackground {
+  transition: all 0.3s ease;
+}
+
+.dotElement {
+  position: relative;
+}
+
+.dotElement::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 50px;
+  width: 50px;
+  background: transparent;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Mobile phone adaptation - full screen */
+@media (max-width: 768px) {
+  .animatedBackground--mobile {
+    height: 100vh !important;
+    width: 100vw !important;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Disable hover area on mobile devices*/
+  .dotElement::before {
+    display: none;
+  }
+
+  /* Basic styles for mobile endpoints */
+  .dotElement {
+    cursor: default !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1480px) and (min-height: 780px) and (max-height: 850px) {
+  .animatedBackground--desktop1440 {
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Regular computer screen - full screen */
+@media (min-width: 769px) {
+  .animatedBackground--desktop {
+    height: 100vh !important;
+    width: 100vw !important;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Make sure you have base styles in all cases*/
+.animatedBackground--mobile,
+.animatedBackground--desktop1440,
+.animatedBackground--desktop {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
 }
