@@ -34,3 +34,9 @@ export function lerpColor(aHex, bHex, t) {
   const b2 = Math.round(lerp(a.b, b.b, t));
   return `rgb(${r}, ${g}, ${b2})`;
 }
+
+// Euclidean Distance
+/**https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/hypot */
+export function calculateDistance(x1, y1, x2, y2) {
+  return Math.hypot(x2 - x1, y2 - y1);
+}
