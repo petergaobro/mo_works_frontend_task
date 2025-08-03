@@ -21,6 +21,7 @@ import Dot from "./dot";
 import { calcGrid } from "./utils/gridMath";
 import styles from "../../app/helper.module.css";
 import clsx from "clsx";
+import { bottomeThreeRowsLimitation } from "./utils/hoverUtils";
 
 function AnimationForBackground() {
   // ================================== state management ==================================================
@@ -53,15 +54,22 @@ function AnimationForBackground() {
 
   // The point index automatically displayed on the mobile terminal is used to automatically
   //  display user information in a loop
-  const [mobileAutoHoverIndex, setMobileAutoHoverIndex] = useState(null);
+  const [mobileAutoHoverAvatarIdx, setMobileAutoHoverAvatarIdx] =
+    useState(null);
 
   // =========================================== ref management =============================================
   // A reference to the animation frame request, used to cancel the animation
   const requestRef = useRef();
 
   // Reference to the automatic hover timer on mobile devices
-  const mobileHoverTimerRef = useRef();
+  const mobileHoverTimerRef = useRef(null);
 
+  // ======================================= initial setup effect =========================================
+  /**
+   * Set the initial configuration and gradient center, which is only executed once
+   * when the component is mounted, to establish the initial device configuration,
+   * path and center point
+   */
   useEffect(() => {
     const initialDeviceType = getDeviceType();
     const initialConfig = DEVICE_CONFIGS[initialDeviceType];
@@ -97,7 +105,7 @@ function AnimationForBackground() {
       ];
       setCenters(initialCenters);
     } else {
-      // 固定尺寸设备
+      // Fixed size equipment
       const initialPathPoints = generatePathPoints(
         initialConfig.PANEL_W,
         initialConfig.PANEL_H
@@ -129,6 +137,119 @@ function AnimationForBackground() {
     }
   }, []);
 
+  // =================================== mobile effect automatically ==============================================
+  useEffect(() => {
+    // If not on mobile, clear timer and reset state
+    if (deviceType !== "mobile") {
+      clearInterval(mobileHoverTimerRef.current);
+      mobileHoverTimerRef.current = null;
+      setMobileAutoHoverAvatarIdx(null);
+      return;
+    }
+
+    // Function to randomly select a dot from the bottom three rows and update hover info
+    /**
+     *
+     * @returns Get the candidate index array and randomly pick an
+     * idx to control the avatar and message display
+     */
+    const showRandomHover = () => {
+      const indices = bottomeThreeRowsLimitation(configDeviceValue);
+      if (!indices.length) return;
+
+      // Pick a random point from the bottom
+      /**
+       * A point is randomly selected from the bottom, and the position
+       * of the bubble is calculated based on its position,
+       * showing the corresponding avatar and conversation content.
+       */
+      const idx = indices[Math.floor(Math.random() * indices.length)];
+      setMobileAutoHoverAvatarIdx(idx);
+
+      const avatarData = AVATAR_MESSAGES[idx % AVATAR_MESSAGES.length];
+      const { cols, offsetX } = calcGrid(configDeviceValue);
+      const row = Math.floor(idx / cols);
+      const col = idx % cols;
+
+      setHoverInfoAvatar({
+        avatarData,
+        position: {
+          x:
+            offsetX +
+            configDeviceValue.DOT_DIAM / 2 +
+            col * configDeviceValue.GAP_X,
+          y:
+            configDeviceValue.OFFSET_Y +
+            configDeviceValue.DOT_DIAM / 2 +
+            row * configDeviceValue.GAP_Y -
+            20, // slightly offset upward
+        },
+      });
+    };
+
+    // Start auto-hover after slight delay to ensure grid is ready
+    const timer = setTimeout(() => {
+      showRandomHover(); // Initial hover
+      mobileHoverTimerRef.current = setInterval(showRandomHover, 2000); // Cycle every 2s
+    }, 500);
+
+    // Cleanup timer and interval on unmount or device change
+    return () => {
+      clearTimeout(timer);
+      clearInterval(mobileHoverTimerRef.current);
+      mobileHoverTimerRef.current = null;
+    };
+  }, [deviceType, configDeviceValue]);
+
+  // =========================== Window size change monitoring effect ================================
+  useEffect(() => {
+    const handleResize = () => {
+      // peek at the window size to figure out if we’re on mobile, desktop, etc
+      const newTypeDevice = getDeviceType();
+      console.log("Checking Device:", {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        deviceType: newTypeDevice,
+      });
+
+      // If it’s the same device type as before, we just stop right there.
+      if (newTypeDevice === deviceType) return;
+
+      // Otherwise, we update our state with the new deviceType and grab its config.
+      const newConfigDeviceValue = DEVICE_CONFIGS[newTypeDevice];
+      setDeviceType(newTypeDevice);
+      setConfigDeviceValue(newConfigDeviceValue);
+
+      // rebuild the animation’s path points using that fresh config
+      const newPathPoints = generatePathPoints(
+        newConfigDeviceValue.PANEL_W,
+        newConfigDeviceValue.PANEL_H
+      );
+      setPathPoints(newPathPoints);
+
+      // reset both gradient-centers so they start back at the beginning of those new paths.
+      const newCenters = newPathPoints.map((path, idx) => ({
+        x: path[0].x,
+        y: path[0].y,
+        pathIndex: 0,
+        segmentProgress: 0,
+        GRADIENT_RADIUS_PX:
+          newConfigDeviceValue.GRADIENT_RADIUS_MULTIPLIER[idx] *
+          newConfigDeviceValue.GAP_X,
+      }));
+      setCenters(newCenters);
+    };
+
+    window.addEventListener("resize", handleResize);
+    // Execute once immediately when the component is mounted to ensure the initial state is correct
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [deviceType]);
+
+  // ======================== Animation effect that appears after the page is initialized ===============
+  /**The two gradient apertures begin to move dynamically,
+   * triggering the color change of the dot */
   useEffect(() => {
     if (pathPoints.length === 0 || centers.length === 0) return;
 
@@ -252,7 +373,8 @@ function AnimationForBackground() {
       }`}
     >
       {dots.map(({ left, top, cx, cy }, idx) => {
-        // const isMobileAutoHover = deviceType === 'mobile' && mobileAutoHoverIndex === idx;
+        const isMobileAutoHover =
+          deviceType === "mobile" && mobileAutoHoverAvatarIdx === idx;
         return (
           <i
             key={idx}
@@ -268,7 +390,7 @@ function AnimationForBackground() {
               display: "block",
               cursor: deviceType === "mobile" ? "default" : "pointer",
               transition: "transform 0.2s ease",
-              //   transform: isMobileAutoHover ? 'scale(1.2)' : 'scale(1)',
+              transform: isMobileAutoHover ? "scale(1.2)" : "scale(1)",
               pointerEvents: deviceType === "mobile" ? "none" : "auto",
             }}
             onMouseEnter={
