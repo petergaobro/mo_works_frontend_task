@@ -1,0 +1,27 @@
+.mobileBookButton .arrowIcon {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.3s ease;
+}
+
+.mobileBookButton:hover .arrowIcon {
+  animation: arrowMove 0.8s ease-in-out;
+}
+
+.navBookButton .arrowIcon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.navBookButton:hover .arrowIcon {
+  animation: arrowMove 0.8s ease-in-out;
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.demoButton:hover .arrowIcon {
+  animation: arrowMove 0.8s ease-in-out;
+}
