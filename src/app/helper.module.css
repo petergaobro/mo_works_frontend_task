@@ -142,24 +142,14 @@
     transform: translateX(0);
     opacity: 1;
   }
-  25% {
-    transform: translateX(12px);
-    opacity: 0;
-  }
+
   50% {
-    transform: translateX(20px);
-    opacity: 0;
-  }
-  75% {
-    transform: translateX(8px);
-    opacity: 0.3;
-  }
-  85% {
-    transform: translateX(6px);
+    transform: translateX(16px); /* go to right */
     opacity: 0.8;
   }
+
   100% {
-    transform: translateX(4px);
+    transform: translateX(0);    /* back */
     opacity: 1;
   }
 }
